@@ -7,6 +7,17 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="14*"/>
+        </Grid.RowDefinitions>
+        <local:CubeView x:Name="RCanvas" Grid.Column="1" Grid.Row="2"/>
+        <local:CubeView x:Name="LCanvas" Grid.Column="0" Grid.Row="2"/>
+        <Button Content="Show" Click="Button_Click"/>
     </Grid>
 </Window>

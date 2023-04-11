@@ -20,9 +20,23 @@ namespace CubeGenerator
     /// </summary>
     public partial class MainWindow : Window
     {
+        private TableMatrix table;
+        private TableMatrix table1;
         public MainWindow()
         {
             InitializeComponent();
+            MouseDown += LCanvas.OnMouseDown;
+            MouseDown += RCanvas.OnMouseDown;
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            if (table is null)
+                table = new TableMatrix(7, CubeType.Cube);
+            if (table1 is null)
+                table1 = new TableMatrix(7, CubeType.Border);
+            LCanvas.ChangeView(table);
+            RCanvas.ChangeView(table1);
         }
     }
 }
