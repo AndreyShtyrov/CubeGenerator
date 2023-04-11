@@ -20,23 +20,49 @@ namespace CubeGenerator
     /// </summary>
     public partial class MainWindow : Window
     {
-        private TableMatrix table;
-        private TableMatrix table1;
+        private DataController controller;
         public MainWindow()
         {
             InitializeComponent();
             MouseDown += LCanvas.OnMouseDown;
             MouseDown += RCanvas.OnMouseDown;
+            controller = new DataController();
+            Cubes.ItemsSource = controller.Cubes;
+            Borders.ItemsSource = controller.Borders;
+            Cubes.SelectionChanged += (object sender, SelectionChangedEventArgs e) =>{ reDraw(); };
+            Borders.SelectionChanged += (object sender, SelectionChangedEventArgs e) => { reDraw(); };
+        }
+
+        private void reDraw()
+        {
+            if (Cubes.SelectedItem is TableMatrix tcube)
+                LCanvas.ChangeView(tcube);
+            if (Borders.SelectedItem is TableMatrix tborder)
+                RCanvas.ChangeView(tborder);
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            if (table is null)
-                table = new TableMatrix(7, CubeType.Cube);
-            if (table1 is null)
-                table1 = new TableMatrix(7, CubeType.Border);
-            LCanvas.ChangeView(table);
-            RCanvas.ChangeView(table1);
+            reDraw();
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            controller.CreateNewCube(CubeType.Cube);
+        }
+
+        private void Button_Click_2(object sender, RoutedEventArgs e)
+        {
+            controller.CreateNewCube(CubeType.Border);
+        }
+
+        private void Button_Click_3(object sender, RoutedEventArgs e)
+        {
+            if (Cubes.SelectedItem is TableMatrix tcube)
+            {
+                tcube.RotToLeft();
+                reDraw();
+            }
         }
     }
 }
