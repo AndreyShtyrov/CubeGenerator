@@ -9,6 +9,6 @@
       Title="CubeView">
 
     <Grid>
-        
+        <Canvas x:Name="Field" ></Canvas>
     </Grid>
 </Page>
