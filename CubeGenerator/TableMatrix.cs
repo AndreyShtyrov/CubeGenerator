@@ -132,6 +132,41 @@ namespace CubeGenerator
             return bringView(rotM);
         }
 
+        public void AddSquar(int x, int y)
+        {
+            if (rotAngle % 4 == 0 && !filled[x, y])
+                filled[x, y] = !filled[x, y];
+            else
+            {
+                var rots = rotAngle % 4;
+                var midSize = Size / 2;
+                if (!isOdd)
+                    midSize += 1;
+                var _x = x - midSize;
+                var _y = y - midSize;
+                if (!isOdd)
+                {
+                    if (_x < 0)
+                        _x -= 1;
+                    else
+                        _x += 1;
+                    if (_y < 0)
+                        _y -= 1;
+                    else
+                        _y += 1;
+                }
+
+                for (int t = rots; t > 0; t--)
+                {
+                    var _t = _y;
+                    _y = -1 * _x;
+                    _x = _t;
+                }
+                if (!filled[_x + midSize, _y + midSize])
+                    filled[_x + midSize, _y + midSize] = !filled[_x + midSize, _y + midSize];
+            }
+        }
+
         public void ChangeSquar(int x, int y)
         {
             if (rotAngle % 4 == 0)

@@ -21,6 +21,8 @@ namespace CubeGenerator
     public partial class MainWindow : Window
     {
         private DataController controller;
+        private int cycleI = 0;
+        System.Windows.Threading.DispatcherTimer timmer;
         public MainWindow()
         {
             InitializeComponent();
@@ -63,6 +65,86 @@ namespace CubeGenerator
                 tcube.RotToLeft();
                 reDraw();
             }
+        }
+
+        private void OneGenerationStep()
+        {
+            if (Cubes.SelectedItem is TableMatrix tcube)
+            {
+                if (!(Borders.SelectedItem is TableMatrix))
+                {
+                    controller.CreateNewCube(CubeType.Border);
+                    Borders.SelectedItem = controller.Borders[controller.Borders.Count - 1];
+                }
+                if (Borders.SelectedItem is TableMatrix tborder)
+                {
+                    List<(int X, int Y)> points = new();
+                    var filled = tcube.Filled;
+                    for (int i = 0; i < tcube.Size; i++)
+                        for (int j = 0; j < tcube.Size; j++)
+                        {
+                            if (i == 1 || i == tcube.Size - 2 || j == 1 || j == tcube.Size - 2)
+                            {
+                                if (filled[i, j])
+                                    points.Add((i, j));
+                            }
+                        }
+                    foreach (var point in points)
+                    {
+                        tborder.AddSquar(point.X, point.Y);
+                    }
+                }
+                cycleI += 1;
+                reDraw();
+            }
+            else
+            {
+                timmer.Stop();
+                controller.IsProceedGeneration = false;
+                GenerationStatus.Content = "Generation Ended";
+                return;
+            }
+        }
+        private void GenerateShape()
+        {
+            timmer.Stop();
+            if (cycleI > 3)
+            {
+                timmer.Stop();
+                controller.IsProceedGeneration = false;
+                GenerationStatus.Content = "Generation Ended";
+                return;
+            }
+            if (Cubes.SelectedItem is TableMatrix tcube)
+            {
+                tcube.RotToLeft();
+                OneGenerationStep();
+            }
+            else
+            {
+                timmer.Stop();
+                controller.IsProceedGeneration = false;
+                GenerationStatus.Content = "Generation Ended";
+                return;
+            }
+            if (controller.IsProceedGeneration)
+                timmer.Start();
+        }
+
+        private void Button_Click_4(object sender, RoutedEventArgs e)
+        {
+            GenerationStatus.Content = "GenerationProceed";
+            controller.IsProceedGeneration = true;
+            Cubes.SelectedItem = controller.Cubes[0];
+            OneGenerationStep();
+            reDraw();
+            cycleI = 0;
+            timmer = new System.Windows.Threading.DispatcherTimer();
+            timmer.Tick += (o, e) => {
+                GenerateShape();
+            };
+            timmer.Interval = new TimeSpan(0, 0, 0, 5);
+            timmer.Start();
         }
     }
 }

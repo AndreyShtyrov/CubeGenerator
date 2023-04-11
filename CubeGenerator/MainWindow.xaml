@@ -41,8 +41,9 @@
                 SelectedValuePath="Name"
                 Width="150"/>
             <Button Content="CreateBorder" Click="Button_Click_2"/>
+            <Button Content="GenerateBorderShape" Click="Button_Click_4"/>
         </StackPanel>
-
-        <Button Content="ReDraw" Click="Button_Click"/>
+        <Label Name="GenerationStatus" Content="" Grid.Column="1" Grid.Row="0" Width="200" HorizontalAlignment="Right"/>
+        <Button Content="ReDraw" Click="Button_Click" />
     </Grid>
 </Window>

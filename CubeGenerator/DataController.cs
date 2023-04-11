@@ -14,6 +14,8 @@ namespace CubeGenerator
         public readonly string DataFile;
         public ObservableCollection<TableMatrix> Cubes;
         public ObservableCollection<TableMatrix> Borders;
+
+        public bool IsProceedGeneration = false;
         public TableMatrix ChoosenBorder
         { 
             get {
