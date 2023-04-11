@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32328.378
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CubeGenerator", "CubeGenerator\CubeGenerator.csproj", "{D9ED0BC1-F90A-458E-83E7-05BE2A486DC2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D9ED0BC1-F90A-458E-83E7-05BE2A486DC2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D9ED0BC1-F90A-458E-83E7-05BE2A486DC2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D9ED0BC1-F90A-458E-83E7-05BE2A486DC2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D9ED0BC1-F90A-458E-83E7-05BE2A486DC2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {511ADB59-AE98-4C3B-B4C7-71D4CA9A0700}
+	EndGlobalSection
+EndGlobal
