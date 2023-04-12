@@ -190,6 +190,7 @@ namespace CubeGenerator
             if (controller.Borders.Count == 0 || controller.Cubes.Count == 0)
                 return;
             controller.FillPasses(nSlots);
+            reDraw();
         }
 
         private void Button_Click_9(object sender, RoutedEventArgs e)

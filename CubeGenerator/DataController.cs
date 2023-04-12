@@ -48,13 +48,19 @@ namespace CubeGenerator
                         if (_filled[slot.X, slot.Y])
                         {
                             notBlocked = false;
-                        } 
+                        }
                     }
                     if (notBlocked)
+                    {
+                        foreach (var cube1 in Cubes)
+                            cube1.ResetRotation();
                         return false;
+                    }
                     cube.RotToLeft();
                 }
             }
+            foreach (var cube1 in Cubes)
+                cube1.ResetRotation();
             return true;
         }
 
@@ -89,19 +95,19 @@ namespace CubeGenerator
                     switch(bordInt)
                     {
                         case 0:
-                            border.ChangeSquar(1, rInt);
+                            border.RemoveSquar(1, rInt);
                             break;
                         case 1:
-                            border.ChangeSquar(rInt, 1);
+                            border.RemoveSquar(rInt, 1);
                             break;
                         case 2:
-                            border.ChangeSquar(border.Size - 2, rInt);
+                            border.RemoveSquar(border.Size - 2, rInt);
                             break;
                         case 3:
-                            border.ChangeSquar(rInt, border.Size - 2);
+                            border.RemoveSquar(rInt, border.Size - 2);
                             break;
                     }
-                    if (Check(border))
+                    if (!Check(border))
                         switch (bordInt)
                         {
                             case 0:
