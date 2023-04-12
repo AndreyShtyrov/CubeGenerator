@@ -160,5 +160,15 @@ namespace CubeGenerator
             timmer.Interval = new TimeSpan(0, 0, 0, 5);
             timmer.Start();
         }
+
+        private void Button_Click_5(object sender, RoutedEventArgs e)
+        {
+            controller.Save();
+        }
+
+        private void Button_Click_6(object sender, RoutedEventArgs e)
+        {
+            controller.Load();
+        }
     }
 }

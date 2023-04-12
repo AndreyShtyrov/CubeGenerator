@@ -62,6 +62,20 @@ namespace CubeGenerator
             rotAngle = 0;
         }
 
+        public List<TablePoint> ToListTablePoints()
+        {
+            var result = new List<TablePoint>();
+            for (int i = 0; i < Size; i++)
+                for (int j = 0; j < Size; j++)
+                {
+                    var tp = new TablePoint();
+                    tp.X = i;
+                    tp.Y = j;
+                    tp.status = filled[i, j];
+                    result.Add(tp);
+                }
+            return result;
+        }
         public void RotToLeft()
         {
             rotAngle = (rotAngle + 1) % 4;
@@ -219,5 +233,20 @@ namespace CubeGenerator
             }
         }
 
+        public void ApplyFromListPoints(List<TablePoint> tablePoints)
+        {
+            foreach (var point in tablePoints)
+                filled[point.X, point.Y] = point.status;
+        }
+    }
+
+    public struct TablePoint
+    {
+        public int X
+        { get; set; }
+        public int Y
+        { get; set; }
+        public bool status
+        { get; set; }
     }
 }
