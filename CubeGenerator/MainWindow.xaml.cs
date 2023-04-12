@@ -50,16 +50,22 @@ namespace CubeGenerator
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
+            if (controller.IsProceedGeneration)
+                return;
             controller.CreateNewCube(CubeType.Cube);
         }
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
+            if (controller.IsProceedGeneration)
+                return;
             controller.CreateNewCube(CubeType.Border);
         }
 
         private void Button_Click_3(object sender, RoutedEventArgs e)
         {
+            if (controller.IsProceedGeneration)
+                return;
             if (Cubes.SelectedItem is TableMatrix tcube)
             {
                 tcube.RotToLeft();
@@ -101,6 +107,8 @@ namespace CubeGenerator
             {
                 timmer.Stop();
                 controller.IsProceedGeneration = false;
+                MouseDown += LCanvas.OnMouseDown;
+                MouseDown += RCanvas.OnMouseDown;
                 GenerationStatus.Content = "Generation Ended";
                 return;
             }
@@ -112,6 +120,8 @@ namespace CubeGenerator
             {
                 timmer.Stop();
                 controller.IsProceedGeneration = false;
+                MouseDown += LCanvas.OnMouseDown;
+                MouseDown += RCanvas.OnMouseDown;
                 GenerationStatus.Content = "Generation Ended";
                 return;
             }
@@ -124,6 +134,8 @@ namespace CubeGenerator
             {
                 timmer.Stop();
                 controller.IsProceedGeneration = false;
+                MouseDown += LCanvas.OnMouseDown;
+                MouseDown += RCanvas.OnMouseDown;
                 GenerationStatus.Content = "Generation Ended";
                 return;
             }
@@ -135,6 +147,8 @@ namespace CubeGenerator
         {
             GenerationStatus.Content = "GenerationProceed";
             controller.IsProceedGeneration = true;
+            MouseDown -= LCanvas.OnMouseDown;
+            MouseDown -= RCanvas.OnMouseDown;
             Cubes.SelectedItem = controller.Cubes[0];
             OneGenerationStep();
             reDraw();

@@ -64,14 +64,32 @@ namespace CubeGenerator
 
         public void RotToLeft()
         {
-            rotAngle += 1;
+            rotAngle = (rotAngle + 1) % 4;
         }
 
         public void RotToRight()
         {
-            rotAngle -= 1;
+            switch (rotAngle)
+            {
+                case 0:
+                    rotAngle = 3;
+                    break;
+                case 1:
+                    rotAngle = 0;
+                    break;
+                case 2:
+                    rotAngle = 1;
+                    break;
+                case 3:
+                    rotAngle = 2;
+                    break;
+            }
         }
 
+        public void ResetRotation()
+        {
+            rotAngle = 0;
+        }
         private (int X, int Y)[,] getZeroRotMatrix()
         {
             (int X, int Y)[,] rotM = new (int X, int Y)[Size, Size];
