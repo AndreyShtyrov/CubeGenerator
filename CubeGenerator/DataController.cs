@@ -15,6 +15,7 @@ namespace CubeGenerator
         public readonly string DataFile;
         public ObservableCollection<TableMatrix> Cubes;
         public ObservableCollection<TableMatrix> Borders;
+        public List<string> PreviosFiles;
 
         public string SavePath
         { get; set; }
@@ -23,8 +24,125 @@ namespace CubeGenerator
 
         public int CubeSize;
 
+
+        public void CreateDefaultDirectory()
+        {
+            if (!Directory.Exists(appDataFolder))
+            {
+                Directory.CreateDirectory(appDataFolder);
+            }
+        }
+
+        public bool Check(TableMatrix matrix)
+        {
+            var _filled = matrix.Filled;
+            foreach (var cube in Cubes)
+            {
+                cube.ResetRotation();
+                for(int i = 0; i < 3; i++)
+                {
+                    var slots = cube.getSlots();
+                    bool notBlocked = true;
+                    foreach(var slot in slots)
+                    {
+                        if (_filled[slot.X, slot.Y])
+                        {
+                            notBlocked = false;
+                        } 
+                    }
+                    if (notBlocked)
+                        return false;
+                    cube.RotToLeft();
+                }
+            }
+            return true;
+        }
+
+        public void FillPasses(int slotsAmount)
+        {
+            foreach(var border in Borders)
+            {
+                for (int i = 0; i < border.Size; i++)
+                    border.AddSquar(i, 1);
+                for (int i = 0; i < border.Size; i++)
+                    border.AddSquar(i, border.Size - 2);
+                for (int j = 0; j < border.Size; j++)
+                    border.AddSquar(1, j);
+                for (int j = 0; j < border.Size; j++)
+                    border.AddSquar(border.Size - 2, j);
+            }
+            var mid = CubeSize / 2 + 3;
+            Random r = new Random();
+            foreach (var border in Borders)
+            {
+                for (int i = 0; i < slotsAmount; i++)
+                {
+                    var bordInt = 0;
+                    var rInt = 3;
+                    while (true)
+                    {
+                        rInt = r.Next(2, border.Size - 2);
+                        bordInt = r.Next(0, 3);
+                        if (mid != rInt)
+                            break;
+                    }
+                    switch(bordInt)
+                    {
+                        case 0:
+                            border.ChangeSquar(1, rInt);
+                            break;
+                        case 1:
+                            border.ChangeSquar(rInt, 1);
+                            break;
+                        case 2:
+                            border.ChangeSquar(border.Size - 2, rInt);
+                            break;
+                        case 3:
+                            border.ChangeSquar(rInt, border.Size - 2);
+                            break;
+                    }
+                    if (Check(border))
+                        switch (bordInt)
+                        {
+                            case 0:
+                                border.ChangeSquar(1, rInt);
+                                break;
+                            case 1:
+                                border.ChangeSquar(rInt, 1);
+                                break;
+                            case 2:
+                                border.ChangeSquar(border.Size - 2, rInt);
+                                break;
+                            case 3:
+                                border.ChangeSquar(rInt, border.Size - 2);
+                                break;
+                        }
+                }
+            }
+        }
+
+        private void UpdateProgramData()
+        {
+            CreateDefaultDirectory();
+            var data = new ProgramSettingSave();
+            data.previosPaths = PreviosFiles;
+            data.defaultSize = 7;
+            var json = JsonSerializer.Serialize(data);
+            using (StreamWriter sw = new StreamWriter(DataFile))
+                sw.WriteLine(json);
+        }
+
+        private void LoadProgramData()
+        {
+            string json = "";
+            using (StreamReader sr = new StreamReader(DataFile))
+                json = sr.ReadLine();
+            var data = JsonSerializer.Deserialize<ProgramSettingSave>(json);
+            PreviosFiles = data.previosPaths;
+        }
         public void Save()
         {
+            UpdateProgramData();
             var data = new DataContainerSave();
             data.Size = CubeSize;
             foreach (var cube in Cubes)
@@ -69,8 +187,11 @@ namespace CubeGenerator
             DataFile = Path.Combine(appDataFolder, "cubeData.json");
             Cubes = new ObservableCollection<TableMatrix>();
             Borders = new ObservableCollection<TableMatrix>();
+            PreviosFiles = new();
             CubeSize = 7;
             SavePath = "C://Users//WorkPlace//Documents//CubeG//save.json";
+
+            //LoadProgramData();
         }
 
         public void CreateNewCube(CubeType cubeType)
@@ -81,6 +202,18 @@ namespace CubeGenerator
                 Borders.Add(new TableMatrix(CubeSize, CubeType.Border, "Border " + Borders.Count));
         }
 
+        public class ProgramSettingSave
+        {
+            public List<string> previosPaths
+            { get; set; }
+            public int defaultSize
+            { get; set; }
+
+            public ProgramSettingSave()
+            {
+                previosPaths = new();
+            }
+        }
 
         public class DataContainerSave
         {

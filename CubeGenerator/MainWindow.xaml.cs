@@ -170,5 +170,36 @@ namespace CubeGenerator
         {
             controller.Load();
         }
+
+        private void Button_Click_7(object sender, RoutedEventArgs e)
+        {
+            controller.CreateNewCube(CubeType.Cube);
+            controller.CreateNewCube(CubeType.Cube);
+            controller.CreateNewCube(CubeType.Cube);
+            controller.CreateNewCube(CubeType.Border);
+            controller.CreateNewCube(CubeType.Border);
+            controller.CreateNewCube(CubeType.Border);
+            controller.CreateNewCube(CubeType.Border);
+            controller.CreateNewCube(CubeType.Border);
+            controller.CreateNewCube(CubeType.Border);
+        }
+
+        private void Button_Click_8(object sender, RoutedEventArgs e)
+        {
+            var nSlots = int.Parse(SlotCount.Text);
+            if (controller.Borders.Count == 0 || controller.Cubes.Count == 0)
+                return;
+            controller.FillPasses(nSlots);
+        }
+
+        private void Button_Click_9(object sender, RoutedEventArgs e)
+        {
+            if (controller.Borders.Count == 0 || controller.Cubes.Count == 0)
+                return;
+            if (Borders.SelectedItem is TableMatrix tborder)
+            {
+                controller.Check(tborder);
+            }
+        }
     }
 }

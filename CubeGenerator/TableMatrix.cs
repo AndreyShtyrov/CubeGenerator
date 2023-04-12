@@ -233,6 +233,24 @@ namespace CubeGenerator
             }
         }
 
+        public List<(int X, int Y)> getSlots()
+        {
+            var _filled = Filled;
+            var result = new List<(int X, int Y)>();
+            for (int i = 0; i < Size; i++)
+                if (_filled[i, 1])
+                    result.Add((i, 1));
+            for (int i = 0; i < Size; i++)
+                if (_filled[i, Size - 2])
+                    result.Add((i, Size - 2));
+            for (int j = 0; j < Size; j++)
+                if (_filled[1, j])
+                    result.Add((1, j));
+            for (int j = 0; j < Size; j++)
+                if (_filled[Size - 2, j])
+                    result.Add((Size - 2, j));
+            return result;
+        }
         public void ApplyFromListPoints(List<TablePoint> tablePoints)
         {
             foreach (var point in tablePoints)
