@@ -203,5 +203,13 @@ namespace CubeGenerator
                 GenerationStatus.Content = res.ToString();
             }
         }
+
+        private void Button_Click_10(object sender, RoutedEventArgs e)
+        {
+            var nslots = int.Parse(SlotCount.Text);
+            controller.FullGeneratation(nslots);
+            GenerationStatus.Content = "Generation Ended: " + controller.Borders.Count.ToString();
+            reDraw();
+        }
     }
 }

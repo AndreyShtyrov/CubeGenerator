@@ -38,7 +38,7 @@ namespace CubeGenerator
         public bool Check(TableMatrix matrix)
         {
             var _filled = matrix.Filled;
-            var _mirror_filled = matrix.MirrowFilled;
+            var _mirror_filled = matrix.MirrorFilled;
             foreach (var cube in Cubes)
             {
                 cube.ResetRotation();
@@ -197,12 +197,48 @@ namespace CubeGenerator
             }
         }
 
-        public List<List<int>> GenerateAllPosiblePositions()
+        public List<List<int>> GenerateAllPosiblePositions(int deep, int i, List<int> prev_pos)
         {
             List<List<int>> vs = new();
-            for (int i = 1; i < 12; i++ )
+            if (i < deep)
             {
+                for (int j = 0; j < 16; j++)
+                {
+                    if (!prev_pos.Contains(j))
+                    {
+                        
+                        if (i < deep)
+                        {
+                            var seq = new List<int>(prev_pos);
+                            seq.Add(j);
+                            vs.AddRange(GenerateAllPosiblePositions(deep, i + 1, seq));
+                        }
+                    }
+                }
+            }
+            else
+            {
+                for (int j = 0; j < 16; j++)
+                {
+                    if (!prev_pos.Contains(j))
+                    {
+                        var seq = new List<int>(prev_pos);
+                        seq.Add(j);
+                        vs.Add(seq);
+                    }
+                }
+            }
+            return vs;
+        }
 
+        public void FullGeneratation(int slots)
+        {
+            var seqs = GenerateAllPosiblePositions(slots, 1, new List<int>());
+            int count = 0;
+            foreach(var seq in seqs)
+            {
+                Borders.Add(TableMatrix.GenerateFromSeq(seq, CubeSize, "cube" + count.ToString()));
+                count++;
             }
         }
         public DataController()

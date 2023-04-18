@@ -27,6 +27,19 @@ namespace CubeGenerator
             get { return getRotatedMatrix(); }
         }
 
+        public bool[,] MirrorFilled
+        { 
+            get
+            {
+                var res = getRotatedMatrix();
+                bool[,] ret = new bool[Size, Size];
+                for (int i = 0; i < Size; i++)
+                    for (int j = 0; j < Size; j++)
+                        ret[i, j] = res[i, Size - j];
+                return ret;
+            }
+        }
+
         public TableMatrix(int size, CubeType cubeType, string name="cube")
         {
             Name = name;
@@ -60,8 +73,87 @@ namespace CubeGenerator
 
             }
             rotAngle = 0;
+            if (cubeType == CubeType.Border)
+            {
+                filled[1, 1] = true;
+                filled[1, Size - 2] = true;
+                filled[Size - 2, 1] = true;
+                filled[Size - 2, Size - 2] = true;
+                filled[5, 1] = true;
+                filled[1, 5] = true;
+                filled[Size - 2, 5] = true;
+                filled[5, Size - 2] = true;
+                filled[2, 1] = true;
+                filled[1, 2] = true;
+                filled[Size - 3, 1] = true;
+                filled[1, Size - 3] = true;
+                filled[Size - 2, Size - 3] = true;
+                filled[Size - 3, Size - 2] = true;
+                filled[Size - 2, 2] = true;
+                filled[2, Size - 2] = true;
+            }
+            
         }
 
+        public static TableMatrix GenerateFromSeq(List<int> seq, int Size, string name)
+        {
+            var matrix = new TableMatrix(Size, CubeType.Border, name);
+            for(int i = 0; i < seq.Count; i++)
+            {
+                switch (seq[i])
+                {
+                    case 0: matrix.AddSquar(3, 1);
+                        break;
+                    case 1: matrix.AddSquar(4, 1);
+                        break;
+                    case 2: matrix.AddSquar(6, 1);
+                        break;
+                    case 3: matrix.AddSquar(7, 1);
+                        break;
+                    case 4: matrix.AddSquar(Size + 4 - 2, 3);
+                        break;
+                    case 5: matrix.AddSquar(Size + 4 - 2, 4);
+                        break;
+                    case 6: matrix.AddSquar(Size + 4 - 2, 6);
+                        break;
+                    case 7: matrix.AddSquar(Size + 4 - 2, 7);
+                        break;
+                    case 8: matrix.AddSquar(7, Size + 4 - 2);
+                        break;
+                    case 9: matrix.AddSquar(6, Size + 4 - 2);
+                        break;
+                    case 10: matrix.AddSquar(4, Size + 4 - 2);
+                        break;
+                    case 11: matrix.AddSquar(3, Size + 4 - 2);
+                        break;
+                    case 12: matrix.AddSquar(1, 7);
+                        break;
+                    case 13: matrix.AddSquar(1, 6);
+                        break;
+                    case 14: matrix.AddSquar(1, 4);
+                        break;
+                    case 15: matrix.AddSquar(1, 3);
+                        break;
+                }
+            }
+            matrix.AddSquar(1, 1);
+            matrix.AddSquar(1, Size + 4 - 2);
+            matrix.AddSquar(Size + 4 - 2, 1);
+            matrix.AddSquar(Size + 4 - 2, Size + 4 - 2);
+            matrix.AddSquar(5, 1);
+            matrix.AddSquar(1, 5);
+            matrix.AddSquar(Size + 4 - 2, 5);
+            matrix.AddSquar(5, Size + 4 - 2);
+            matrix.AddSquar(2, 1);
+            matrix.AddSquar(1, 2);
+            matrix.AddSquar(Size + 4 - 3, 1);
+            matrix.AddSquar(1, Size + 4 - 3);
+            matrix.AddSquar(Size + 4 - 2, Size + 4 - 3);
+            matrix.AddSquar(Size + 4 - 3, Size + 4 - 2);
+            matrix.AddSquar(Size + 4 - 2, 2);
+            matrix.AddSquar(2, Size + 4 - 2);
+            return matrix;
+        }
         public List<TablePoint> ToListTablePoints()
         {
             var result = new List<TablePoint>();
