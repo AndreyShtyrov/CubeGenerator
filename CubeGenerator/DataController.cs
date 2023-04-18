@@ -195,7 +195,7 @@ namespace CubeGenerator
             Borders = new ObservableCollection<TableMatrix>();
             PreviosFiles = new();
             CubeSize = 7;
-            SavePath = "C://Users//WorkPlace//Documents//CubeG//save.json";
+            SavePath = "C://Users//Andronet//Documents//CubeG//save.json";
 
             //LoadProgramData();
         }
