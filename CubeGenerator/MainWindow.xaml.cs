@@ -199,7 +199,8 @@ namespace CubeGenerator
                 return;
             if (Borders.SelectedItem is TableMatrix tborder)
             {
-                controller.Check(tborder);
+                var res = controller.Check(tborder);
+                GenerationStatus.Content = res.ToString();
             }
         }
     }
