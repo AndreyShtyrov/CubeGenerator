@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -16,6 +16,8 @@ namespace CubeGenerator
         public ObservableCollection<TableMatrix> Cubes;
         public ObservableCollection<TableMatrix> Borders;
         public List<string> PreviosFiles;
+        public bool IsCheckMirror
+        { get; set; }
 
         public string SavePath
         { get; set; }
@@ -36,17 +38,26 @@ namespace CubeGenerator
         public bool Check(TableMatrix matrix)
         {
             var _filled = matrix.Filled;
+            var _mirror_filled = matrix.MirrowFilled;
             foreach (var cube in Cubes)
             {
                 cube.ResetRotation();
-                for(int i = 0; i < 3; i++)
+                for(int i = 0; i < 4; i++)
                 {
                     var slots = cube.getSlots();
                     bool notBlocked = true;
                     foreach(var slot in slots)
                     {
+                        if (IsCheckMirror)
+                        {
+                            if (_mirror_filled[slot.X, slot.Y])
+                            {
+                                notBlocked = false;
+                            }
+                        }
                         if (_filled[slot.X, slot.Y])
                         {
+                           
                             notBlocked = false;
                         }
                     }
@@ -186,7 +197,14 @@ namespace CubeGenerator
             }
         }
 
+        public List<List<int>> GenerateAllPosiblePositions()
+        {
+            List<List<int>> vs = new();
+            for (int i = 1; i < 12; i++ )
+            {
 
+            }
+        }
         public DataController()
         {
             appDataFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "CubeGenerator");
@@ -196,7 +214,7 @@ namespace CubeGenerator
             PreviosFiles = new();
             CubeSize = 7;
             SavePath = "C://Users//Andronet//Documents//CubeG//save.json";
-
+            IsCheckMirror = true;
             //LoadProgramData();
         }
 
