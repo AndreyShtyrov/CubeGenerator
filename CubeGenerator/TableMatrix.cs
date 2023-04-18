@@ -35,7 +35,7 @@ namespace CubeGenerator
                 bool[,] ret = new bool[Size, Size];
                 for (int i = 0; i < Size; i++)
                     for (int j = 0; j < Size; j++)
-                        ret[i, j] = res[i, Size - j];
+                        ret[i, j] = res[i, Size -1 - j];
                 return ret;
             }
         }

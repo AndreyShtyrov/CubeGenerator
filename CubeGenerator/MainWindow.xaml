@@ -42,7 +42,7 @@
                 Width="150"/>
             <Button Content="CreateBorder" Click="Button_Click_2"/>
             <Button Content="GenerateBorderShape" Click="Button_Click_4"/>
-            <TextBox x:Name="SlotCount" Text="1" Width="100" />
+            <TextBox x:Name="SlotCount" Text="7" Width="100" />
             <Button Content="RandomFill" Click="Button_Click_8"/>
             <Button Content="Check" Click="Button_Click_9"/>
             <Button Content="FullGeneration" Click="Button_Click_10"/>

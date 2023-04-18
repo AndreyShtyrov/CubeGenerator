@@ -187,9 +187,9 @@ namespace CubeGenerator
         private void Button_Click_8(object sender, RoutedEventArgs e)
         {
             var nSlots = int.Parse(SlotCount.Text);
-            if (controller.Borders.Count == 0 || controller.Cubes.Count == 0)
+            if (controller.Cubes.Count == 0)
                 return;
-            controller.FillPasses(nSlots);
+            controller.RandomGeneration(nSlots, 50);
             reDraw();
         }
 

@@ -75,66 +75,42 @@ namespace CubeGenerator
             return true;
         }
 
-        public void FillPasses(int slotsAmount)
+        public void RandomGeneration(int slotsAmount, int nstructs)
         {
-            foreach(var border in Borders)
+            var seqs = new List<List<int>>();
+            int maxTries = 500;
+            Random rnd = new Random();
+            if (slotsAmount > 12)
+                return;
+            for (int i = 0; i < nstructs; i++)
             {
-                for (int i = 0; i < border.Size; i++)
-                    border.AddSquar(i, 1);
-                for (int i = 0; i < border.Size; i++)
-                    border.AddSquar(i, border.Size - 2);
-                for (int j = 0; j < border.Size; j++)
-                    border.AddSquar(1, j);
-                for (int j = 0; j < border.Size; j++)
-                    border.AddSquar(border.Size - 2, j);
-            }
-            var mid = CubeSize / 2 + 3;
-            Random r = new Random();
-            foreach (var border in Borders)
-            {
-                for (int i = 0; i < slotsAmount; i++)
+                var seq = new List<int>();
+                for (int j = 0; j < slotsAmount; j++)
                 {
-                    var bordInt = 0;
-                    var rInt = 3;
+                    int nstep = 0;
                     while (true)
                     {
-                        rInt = r.Next(2, border.Size - 2);
-                        bordInt = r.Next(0, 3);
-                        if (mid != rInt)
-                            break;
-                    }
-                    switch(bordInt)
-                    {
-                        case 0:
-                            border.RemoveSquar(1, rInt);
-                            break;
-                        case 1:
-                            border.RemoveSquar(rInt, 1);
-                            break;
-                        case 2:
-                            border.RemoveSquar(border.Size - 2, rInt);
-                            break;
-                        case 3:
-                            border.RemoveSquar(rInt, border.Size - 2);
-                            break;
-                    }
-                    if (!Check(border))
-                        switch (bordInt)
+                        var pos = rnd.Next(0, 15);
+                        if (!seq.Contains(pos))
                         {
-                            case 0:
-                                border.ChangeSquar(1, rInt);
-                                break;
-                            case 1:
-                                border.ChangeSquar(rInt, 1);
-                                break;
-                            case 2:
-                                border.ChangeSquar(border.Size - 2, rInt);
-                                break;
-                            case 3:
-                                border.ChangeSquar(rInt, border.Size - 2);
-                                break;
+                            seq.Add(pos);
+                            break;
                         }
+                        if (nstep > maxTries)
+                            break;
+                        nstep++;
+                    }
+                    
                 }
+                if (seq.Count == slotsAmount)
+                    seqs.Add(seq);
+            }
+            
+            foreach (var seq in seqs)
+            {
+                var border = TableMatrix.GenerateFromSeq(seq, CubeSize, "randomCube");
+                if (Check(TableMatrix.GenerateFromSeq(seq, CubeSize, "randomCube")))
+                    Borders.Add(border);
             }
         }
 
