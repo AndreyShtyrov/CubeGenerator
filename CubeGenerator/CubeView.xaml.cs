@@ -110,5 +110,10 @@ namespace CubeGenerator
                 Field.Children.Add(item);
             }
         }
+
+        public void Clear()
+        {
+            Field.Children.Clear();
+        }
     }
 }

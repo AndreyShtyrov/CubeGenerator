@@ -217,6 +217,7 @@ namespace CubeGenerator
                     GenerationStatus.Content = "Blocked";
                 else
                     GenerationStatus.Content = "Not Blocked";
+                reDraw();
             }
         }
 
@@ -234,6 +235,7 @@ namespace CubeGenerator
             {
                 controller.Borders.Remove(tborder);
                 Borders.SelectedItem = null;
+                RCanvas.Clear();
             }
         }
         private void Button_Click_12(object sender, RoutedEventArgs e)
@@ -242,6 +244,7 @@ namespace CubeGenerator
             {
                 controller.Cubes.Remove(tcube);
                 Cubes.SelectedItem = null;
+                LCanvas.Clear();
             }
         }
 
