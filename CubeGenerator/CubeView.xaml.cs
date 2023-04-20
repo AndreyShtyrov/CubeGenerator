@@ -114,6 +114,7 @@ namespace CubeGenerator
         public void Clear()
         {
             Field.Children.Clear();
+            boundMatrix = null;
         }
     }
 }
