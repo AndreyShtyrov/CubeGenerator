@@ -75,6 +75,18 @@ namespace CubeGenerator
             return true;
         }
 
+        private List<List<int>> shiftSeq(List<int> seq)
+        {
+            List<List<int>> vs = new();
+            for(int i = 1; i < 4; i++)
+            {
+                var shift = new List<int>();
+                for (int j = 1; j < seq.Count; j++)
+                    shift.Add((seq[j] / 4) * i + seq[j] % 4);
+                vs.Add(shift);
+            }
+            return vs;
+        }
         public void RandomGeneration(int slotsAmount, int nstructs)
         {
             var seqs = new List<List<int>>();
@@ -93,6 +105,21 @@ namespace CubeGenerator
                         var pos = rnd.Next(0, 15);
                         if (!seq.Contains(pos))
                         {
+                            var quart = pos / 4;
+                            int face_slots = 0;
+                            if (seq.Contains(quart * 4))
+                               face_slots++;
+                            if (seq.Contains(quart * 4 + 1))
+                                face_slots++;
+                            if (seq.Contains(quart * 4 + 2))
+                                face_slots++;
+                            if (seq.Contains(quart * 4 + 3))
+                                face_slots++;
+                            if (face_slots == 3)
+                            {
+                                nstep++;
+                                continue;
+                            }
                             seq.Add(pos);
                             break;
                         }
@@ -103,14 +130,23 @@ namespace CubeGenerator
                     
                 }
                 if (seq.Count == slotsAmount)
-                    seqs.Add(seq);
+                {
+                    var shifted = shiftSeq(seq);
+                    if (!seqs.Contains(seq) && !seqs.Contains(shifted[0]) &&
+                        !seqs.Contains(shifted[1]) && !seqs.Contains(shifted[2]))
+                        seqs.Add(seq);
+                }
             }
-            
+
+            var borderI = 0;
             foreach (var seq in seqs)
             {
-                var border = TableMatrix.GenerateFromSeq(seq, CubeSize, "randomCube");
-                if (Check(TableMatrix.GenerateFromSeq(seq, CubeSize, "randomCube")))
+                var border = TableMatrix.GenerateFromSeq(seq, CubeSize, "Border " + borderI.ToString());
+                if (Check(TableMatrix.GenerateFromSeq(seq, CubeSize, "Border")))
+                {
                     Borders.Add(border);
+                    borderI++;
+                }
             }
         }
 

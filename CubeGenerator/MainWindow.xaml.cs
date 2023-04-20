@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.IO;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
@@ -12,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Microsoft.Win32;
 
 namespace CubeGenerator
 {
@@ -163,12 +165,23 @@ namespace CubeGenerator
 
         private void Button_Click_5(object sender, RoutedEventArgs e)
         {
-            controller.Save();
+            var saveFileDialog = new SaveFileDialog();
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                controller.SavePath = saveFileDialog.FileName;
+                controller.Save();
+            }
         }
 
         private void Button_Click_6(object sender, RoutedEventArgs e)
         {
-            controller.Load();
+            var openFileDialog = new OpenFileDialog();
+
+            if (openFileDialog.ShowDialog() == true)
+            {
+                controller.SavePath = openFileDialog.FileName;
+                controller.Load();
+            }
         }
 
         private void Button_Click_7(object sender, RoutedEventArgs e)
@@ -189,7 +202,7 @@ namespace CubeGenerator
             var nSlots = int.Parse(SlotCount.Text);
             if (controller.Cubes.Count == 0)
                 return;
-            controller.RandomGeneration(nSlots, 50);
+            controller.RandomGeneration(nSlots, int.Parse(NBorders.Text));
             reDraw();
         }
 
@@ -200,7 +213,10 @@ namespace CubeGenerator
             if (Borders.SelectedItem is TableMatrix tborder)
             {
                 var res = controller.Check(tborder);
-                GenerationStatus.Content = res.ToString();
+                if (res)
+                    GenerationStatus.Content = "Blocked";
+                else
+                    GenerationStatus.Content = "Not Blocked";
             }
         }
 
@@ -210,6 +226,35 @@ namespace CubeGenerator
             controller.FullGeneratation(nslots);
             GenerationStatus.Content = "Generation Ended: " + controller.Borders.Count.ToString();
             reDraw();
+        }
+
+        private void Button_Click_11(object sender, RoutedEventArgs e)
+        {
+            if (Borders.SelectedItem is TableMatrix tborder)
+            {
+                controller.Borders.Remove(tborder);
+                Borders.SelectedItem = null;
+            }
+        }
+        private void Button_Click_12(object sender, RoutedEventArgs e)
+        {
+            if (Cubes.SelectedItem is TableMatrix tcube)
+            {
+                controller.Cubes.Remove(tcube);
+                Cubes.SelectedItem = null;
+            }
+        }
+
+        private void Button_Click_13(object sender, RoutedEventArgs e)
+        {
+            Borders.SelectedItem = null;
+            controller.Borders.Clear();
+        }
+
+        private void Button_Click_14(object sender, RoutedEventArgs e)
+        {
+            Cubes.SelectedItem = null;
+            controller.Cubes.Clear();
         }
     }
 }
