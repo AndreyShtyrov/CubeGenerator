@@ -46,18 +46,27 @@ namespace CubeGenerator
                 {
                     var slots = cube.getSlots();
                     bool notBlocked = true;
-                    foreach(var slot in slots)
+                    if (IsCheckMirror)
                     {
-                        if (IsCheckMirror)
+                        foreach (var slot in slots)
                         {
                             if (_mirror_filled[slot.X, slot.Y])
                             {
                                 notBlocked = false;
                             }
                         }
+                        if (notBlocked)
+                        {
+                            foreach (var cube1 in Cubes)
+                                cube1.ResetRotation();
+                            return false;
+                        }
+                    }
+                    notBlocked = true;
+                    foreach(var slot in slots)
+                    {
                         if (_filled[slot.X, slot.Y])
                         {
-                           
                             notBlocked = false;
                         }
                     }
