@@ -70,7 +70,7 @@ namespace CubeGenerator
                 return;
             if (Cubes.SelectedItem is TableMatrix tcube)
             {
-                tcube.RotToLeft();
+                tcube.RotToRight();
                 reDraw();
             }
         }
@@ -129,7 +129,7 @@ namespace CubeGenerator
             }
             if (Cubes.SelectedItem is TableMatrix tcube)
             {
-                tcube.RotToLeft();
+                tcube.RotToRight();
                 OneGenerationStep();
             }
             else
@@ -249,12 +249,14 @@ namespace CubeGenerator
         {
             Borders.SelectedItem = null;
             controller.Borders.Clear();
+            RCanvas.Clear();
         }
 
         private void Button_Click_14(object sender, RoutedEventArgs e)
         {
             Cubes.SelectedItem = null;
             controller.Cubes.Clear();
+            LCanvas.Clear();
         }
     }
 }

@@ -76,7 +76,7 @@ namespace CubeGenerator
                             cube1.ResetRotation();
                         return false;
                     }
-                    cube.RotToLeft();
+                    cube.RotToRight();
                 }
             }
             foreach (var cube1 in Cubes)

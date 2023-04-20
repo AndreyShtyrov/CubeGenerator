@@ -168,12 +168,12 @@ namespace CubeGenerator
                 }
             return result;
         }
-        public void RotToLeft()
+        public void RotToRight()
         {
             rotAngle = (rotAngle + 1) % 4;
         }
 
-        public void RotToRight()
+        public void RotToLeft()
         {
             switch (rotAngle)
             {
