@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace CubeGenerator
 {
-    public class DataController
+    public class  DataController
     {
         public readonly string appDataFolder;
         public readonly string DataFile;
@@ -261,7 +261,7 @@ namespace CubeGenerator
             Borders = new ObservableCollection<TableMatrix>();
             PreviosFiles = new();
             CubeSize = 7;
-            SavePath = "C://Users//Andronet//Documents//CubeG//save.json";
+            SavePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "CubeG\\save.json");
             IsCheckMirror = true;
             //LoadProgramData();
         }
