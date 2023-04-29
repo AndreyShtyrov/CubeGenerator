@@ -30,6 +30,7 @@ namespace CubeGenerator
             InitializeComponent();
             MouseDown += LCanvas.OnMouseDown;
             MouseDown += RCanvas.OnMouseDown;
+            KeyDown += onKeyboardPressed;
             controller = new DataController();
             Cubes.ItemsSource = controller.Cubes;
             Borders.ItemsSource = controller.Borders;
@@ -152,6 +153,7 @@ namespace CubeGenerator
             MouseDown -= LCanvas.OnMouseDown;
             MouseDown -= RCanvas.OnMouseDown;
             Cubes.SelectedItem = controller.Cubes[0];
+
             OneGenerationStep();
             reDraw();
             cycleI = 0;
@@ -189,12 +191,6 @@ namespace CubeGenerator
             controller.CreateNewCube(CubeType.Cube);
             controller.CreateNewCube(CubeType.Cube);
             controller.CreateNewCube(CubeType.Cube);
-            controller.CreateNewCube(CubeType.Border);
-            controller.CreateNewCube(CubeType.Border);
-            controller.CreateNewCube(CubeType.Border);
-            controller.CreateNewCube(CubeType.Border);
-            controller.CreateNewCube(CubeType.Border);
-            controller.CreateNewCube(CubeType.Border);
         }
 
         private void Button_Click_8(object sender, RoutedEventArgs e)
@@ -202,8 +198,37 @@ namespace CubeGenerator
             var nSlots = int.Parse(SlotCount.Text);
             if (controller.Cubes.Count == 0)
                 return;
+            
             controller.RandomGeneration(nSlots, int.Parse(NBorders.Text));
             reDraw();
+        }
+
+        private void onKeyboardPressed(object sender, KeyEventArgs e)
+        {
+            if ((e.Key == Key.W || e.Key == Key.S) && Cubes.Items.Count == 0)
+                return;
+            if ((e.Key == Key.A || e.Key == Key.D) && Borders.Items.Count == 0)
+                return;
+            if (e.Key == Key.W)
+                if(Cubes.SelectedIndex < Cubes.Items.Count - 1)
+                    Cubes.SelectedIndex++;
+                else
+                    Cubes.SelectedIndex = 0;
+            if (e.Key == Key.S)
+                if (Cubes.SelectedIndex > 0)
+                    Cubes.SelectedIndex--;
+                else
+                    Cubes.SelectedIndex = Cubes.Items.Count - 1;
+            if (e.Key == Key.D)
+                if (Borders.SelectedIndex < Borders.Items.Count - 1)
+                    Borders.SelectedIndex++;
+                else
+                    Borders.SelectedIndex = 0;
+            if (e.Key == Key.A)
+                if (Borders.SelectedIndex > 0)
+                    Borders.SelectedIndex--;
+                else
+                    Borders.SelectedIndex = Borders.Items.Count - 1;
         }
 
         private void Button_Click_9(object sender, RoutedEventArgs e)

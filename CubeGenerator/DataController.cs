@@ -103,6 +103,7 @@ namespace CubeGenerator
                         _seq.Add(seq[j] + (4 * i) - 16);
                     }
                 }
+                _seq.Sort();
                 vs.Add(_seq);
             }
             return vs;
@@ -163,21 +164,28 @@ namespace CubeGenerator
                     }
                     
                 }
+                if (seq.Count != slotsAmount)
+                    continue;
 
-                if (seq.Count == slotsAmount)
+                seq.Sort();
+                var shifted = shiftSeq(seq);
+                bool isContains = false;
+                foreach (var slot in seqs)
                 {
-                    var shifted = shiftSeq(seq);
-                    if (seqs.Contains(seq) || seqs.Contains(shifted[0]) ||
-                        seqs.Contains(shifted[1]) || seqs.Contains(shifted[2]))
-                        continue;
+                    if (slot.SequenceEqual<int>(seq) || slot.SequenceEqual<int>(shifted[0]) ||
+                        slot.SequenceEqual<int>(shifted[1]) || slot.SequenceEqual<int>(shifted[2]))
+                        isContains = true;
+                        
                 }
-                seqs.Add(seq);
+                if (isContains)
+                    continue;
                 var border = TableMatrix.GenerateFromSeq(seq, CubeSize, "Border " + borderI.ToString());
                 if (Check(border))
                 {
                     Borders.Add(border);
                     borderI++;
                     i_struct++;
+                    seqs.Add(seq);
                 }
 
             }

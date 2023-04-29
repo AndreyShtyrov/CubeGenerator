@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CubeGenerator"
         mc:Ignorable="d"
-        Title="MainWindow" Height="800" Width="1200">
+        Title="MainWindow" Height="800" Width="1500">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -16,23 +16,23 @@
             <RowDefinition Height="30"/>
             <RowDefinition Height="14*"/>
         </Grid.RowDefinitions>
-        <local:CubeView x:Name="RCanvas" Grid.Column="1" Grid.Row="2"/>
-        <local:CubeView x:Name="LCanvas" Grid.Column="0" Grid.Row="2"/>
+        <local:CubeView x:Name="RCanvas" BorderBrush="Black" BorderThickness="2" Grid.Column="1" Grid.Row="2"/>
+        <local:CubeView x:Name="LCanvas" BorderBrush="Black" BorderThickness="2" Grid.Column="0" Grid.Row="2"/>
         <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal">
             <ComboBox 
                 x:Name="Cubes" 
                 ItemsSource="{Binding}" 
                 Grid.Row="1" 
                 Grid.Column="0"
-                Margin="1, 2, 2, 0"
+                Margin="1, 2, 2, 1"
                 DisplayMemberPath="Name"
                 SelectedValuePath="Name"
                 Width="150"
                 />
-            <Button Content="New Cube" Click="Button_Click_1" Width="80" Margin="1, 2, 2, 0"/>
-            <Button Content="Delete" Click="Button_Click_12" Width="80" Margin="1, 2, 2, 0"/>
-            <Button Content="Rotate" Click="Button_Click_3" Width="80" Margin="1, 2, 2, 0" />
-            <Button Content="Clear" Click="Button_Click_14" Width="80" Margin="1, 2, 2, 0" />
+            <Button Content="New Cube" Click="Button_Click_1" Width="80" Margin="1, 2, 2, 1"/>
+            <Button Content="Delete" Click="Button_Click_12" Width="80" Margin="1, 2, 2, 1"/>
+            <Button Content="Rotate" Click="Button_Click_3" Width="80" Margin="1, 2, 2, 1" />
+            <Button Content="Clear" Click="Button_Click_14" Width="80" Margin="1, 2, 2, 1" />
         </StackPanel>
         <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal">
             <ComboBox 
@@ -40,25 +40,24 @@
                 ItemsSource="{Binding}" 
                 Grid.Row="1" 
                 Grid.Column="0"
-                Margin="1, 2, 2, 0"
+                Margin="1, 2, 2, 1"
                 DisplayMemberPath="Name"
                 SelectedValuePath="Name"
                 Width="150"/>
-            <Button Content="New Border" Click="Button_Click_2" Width="60" Margin="1, 2, 2, 0"/>
-            <Button Content="Delete" Click="Button_Click_11" Width="60" Margin="1, 2, 2, 0"/>
-            <Label Content="Slots:" Margin="1, 2, 2, 0"/>
-            <TextBox x:Name="SlotCount" Text="7" Width="30" FontSize="12" TextAlignment="Center" Margin="0, 2, 2, 0"/>
-            <Label Content="Structs" Margin="1, 2, 2, 0"/>
-            <TextBox x:Name="NBorders"  Text="50" Width="30" FontSize="12" TextAlignment="Center" Margin="1, 2, 2, 0"/>
-            <Button Content="RandomFill" Click="Button_Click_8" Width="80" Margin="1, 2, 2, 0" />
-            <Button Content="Check" Click="Button_Click_9" Width="80" Margin="1, 2, 2, 0"/>
-            <Button Content="Clear" Click="Button_Click_13" Width="80" Margin="1, 2, 2, 0"/>
+            <Button Content="New Border" Click="Button_Click_2" Width="80" Margin="1, 2, 2, 1"/>
+            <Button Content="Delete" Click="Button_Click_11" Width="60" Margin="1, 2, 2, 1"/>
+            <Label Content="Slots:" Margin="1, 2, 2, 1"/>
+            <TextBox x:Name="SlotCount" Text="7" Width="30" FontSize="12" TextAlignment="Center" Margin="0, 2, 2, 1"/>
+            <Label Content="Structs" Margin="1, 2, 2, 1"/>
+            <TextBox x:Name="NBorders"  Text="50" Width="30" FontSize="12" TextAlignment="Center" Margin="1, 2, 2, 1"/>
+            <Button Content="RandomFill" Click="Button_Click_8" Width="80" Margin="1, 2, 2, 1" />
+            <Button Content="Check" Click="Button_Click_9" Width="80" Margin="1, 2, 2, 1"/>
+            <Button Content="Clear" Click="Button_Click_13" Width="80" Margin="1, 2, 2, 1"/>
         </StackPanel>
         <Label Name="GenerationStatus" BorderBrush="Black" BorderThickness="1" Content="" Grid.Column="1" Grid.Row="0" Width="200" HorizontalAlignment="Right"/>
         <StackPanel Orientation="Horizontal">
             <Button Content="Save" Click="Button_Click_5" Width="80" Margin="1, 2, 2, 0"/>
             <Button Content="Open" Click="Button_Click_6" Width="80" Margin="1, 2, 2, 0"/>
-            <Button Content="Create" Click="Button_Click_7" Width="80" Margin="1, 2, 2, 0"/>
             <Button Content="ReDraw" Click="Button_Click" Width="80" Margin="1, 2, 2, 0"/>
         </StackPanel>
 
