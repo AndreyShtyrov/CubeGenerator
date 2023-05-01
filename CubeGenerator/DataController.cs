@@ -15,6 +15,8 @@ namespace CubeGenerator
         public readonly string DataFile;
         public ObservableCollection<TableMatrix> Cubes;
         public ObservableCollection<TableMatrix> Borders;
+        public bool IsCheckMirrorBorders
+        { get; set; }
         public List<string> PreviosFiles;
         public bool IsCheckMirror
         { get; set; }
@@ -86,25 +88,56 @@ namespace CubeGenerator
             return true;
         }
 
+        private int mirrorSeqPos(int x)
+        {
+            switch (x)
+            {
+                case 0: return 3;
+                case 1: return 2;
+                case 2: return 1;
+                case 3: return 0;
+                case 4: return 15;
+                case 5: return 14;
+                case 6: return 13;
+                case 7: return 12;
+                case 8: return 11;
+                case 9: return 10;
+                case 10: return 9;
+                case 11: return 8;
+                case 12: return 7;
+                case 13: return 6;
+                case 14: return 5;
+                case 15: return 4;
+            }
+            return -1;
+        }
+
         private List<List<int>> shiftSeq(List<int> seq)
         {
             List<List<int>> vs = new();
             for(int i = 1; i < 4; i++)
             {
                 var _seq = new List<int>();
+                var _m_seq = new List<int>();
                 for (int j = 0; j < seq.Count; j++)
                 {
                     if (seq[j] + ( 4 * i) < 16)
                     {
                         _seq.Add(seq[j] + (4 * i));
+                        _m_seq.Add(seq[j] + (4 * i));
                     }
                     else
                     {
                         _seq.Add(seq[j] + (4 * i) - 16);
+                        _m_seq.Add(seq[j] + (4 * i) - 16);
                     }
                 }
                 _seq.Sort();
+                _m_seq.Sort();
                 vs.Add(_seq);
+                if (IsCheckMirrorBorders)
+                    vs.Add(_m_seq);
+                
             }
             return vs;
         }
