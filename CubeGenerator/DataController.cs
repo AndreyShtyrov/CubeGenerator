@@ -115,7 +115,7 @@ namespace CubeGenerator
         private List<List<int>> shiftSeq(List<int> seq)
         {
             List<List<int>> vs = new();
-            for(int i = 1; i < 4; i++)
+            for(int i = 0; i < 4; i++)
             {
                 var _seq = new List<int>();
                 var _m_seq = new List<int>();
@@ -124,12 +124,12 @@ namespace CubeGenerator
                     if (seq[j] + ( 4 * i) < 16)
                     {
                         _seq.Add(seq[j] + (4 * i));
-                        _m_seq.Add(seq[j] + (4 * i));
+                        _m_seq.Add(mirrorSeqPos(seq[j] + (4 * i)));
                     }
                     else
                     {
                         _seq.Add(seq[j] + (4 * i) - 16);
-                        _m_seq.Add(seq[j] + (4 * i) - 16);
+                        _m_seq.Add(mirrorSeqPos(seq[j] + (4 * i) - 16));
                     }
                 }
                 _seq.Sort();
@@ -205,8 +205,10 @@ namespace CubeGenerator
                 bool isContains = false;
                 foreach (var slot in seqs)
                 {
-                    if (slot.SequenceEqual<int>(seq) || slot.SequenceEqual<int>(shifted[0]) ||
-                        slot.SequenceEqual<int>(shifted[1]) || slot.SequenceEqual<int>(shifted[2]))
+                    if (slot.SequenceEqual<int>(shifted[0]) || slot.SequenceEqual<int>(shifted[1]) ||
+                        slot.SequenceEqual<int>(shifted[2]) || slot.SequenceEqual<int>(shifted[3]) ||
+                        slot.SequenceEqual<int>(shifted[4]) || slot.SequenceEqual<int>(shifted[5]) ||
+                        slot.SequenceEqual<int>(shifted[6]) || slot.SequenceEqual<int>(shifted[7]))
                         isContains = true;
                         
                 }
@@ -339,6 +341,7 @@ namespace CubeGenerator
             CubeSize = 7;
             SavePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "CubeG\\save.json");
             IsCheckMirror = true;
+            IsCheckMirrorBorders = true;
             //LoadProgramData();
         }
 
